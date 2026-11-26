@@ -1,33 +1,43 @@
 const express = require('express');
 const router = express.Router();
-const Thuoc = require('../models/Thuoc');
+const { store, nccList, nsxList, atcList } = require('../dataStore');
 
-// GET all medicines
-router.get('/', async (req, res) => {
+// Page Render — sends Thuốc data to EJS view
+router.get('/', (req, res) => {
   try {
-    const data = await Thuoc.find({}).sort({ STT: 1, stt: 1 });
-    res.json(data);
+    const medicines = store.medicines.filter(m => m.category === 'thuoc');
+    res.render('thuoc/index', {
+      title: 'Danh mục Thuốc',
+      category: 'thuoc',
+      icon: '💊',
+      description: 'Thuốc BHYT • Thuốc kê đơn • Thuốc không kê đơn',
+      medicines,
+      nhaCungCapList: nccList,
+      nhaSanXuatList: nsxList,
+      atcList: atcList
+    });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.render('thuoc/index', {
+      title: 'Danh mục Thuốc',
+      category: 'thuoc',
+      icon: '💊',
+      medicines: [],
+      error: err.message
+    });
   }
 });
 
-// Search by name
-router.get('/search/:name', async (req, res) => {
-  try {
-    const data = await Thuoc.find({
-      $or: [
-        { TEN_THANH_PHAM: { $regex: req.params.name, $options: 'i' } },
-        { ten_thanh_pham: { $regex: req.params.name, $options: 'i' } },
-        { TEN_HOAT_CHAT: { $regex: req.params.name, $options: 'i' } },
-        { ten_hoat_chat: { $regex: req.params.name, $options: 'i' } }
-      ]
-    });
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+// API Search — for AJAX search
+router.get('/search/:name', (req, res) => {
+  const query = (req.params.name || '').toLowerCase();
+  const results = store.medicines.filter(m => 
+    m.category === 'thuoc' && (
+      m.tenThuoc.toLowerCase().includes(query) ||
+      m.tenHoatChat.toLowerCase().includes(query) ||
+      m.maThuoc.toLowerCase().includes(query)
+    )
+  );
+  res.json(results);
 });
 
 module.exports = router;
-

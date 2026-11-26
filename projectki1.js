@@ -10,7 +10,7 @@ function showTab(tabName) {
     btn.classList.add('bg-gray-200', 'text-gray-600');
   });
   document.querySelectorAll('.form').forEach(form => form.classList.remove('active'));
-  
+
   const activeBtn = tabName === 'login' ? loginBtn : regBtn;
   if (activeBtn) {
     activeBtn.classList.add('active', 'bg-green-600', 'text-white', 'font-bold');
@@ -26,7 +26,7 @@ function showTab(tabName) {
 document.getElementById('registerForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const msgEl = document.getElementById('regMsg');
-  
+
   try {
     const res = await fetch(`${API_URL}/register`, {
       method: 'POST',
@@ -58,7 +58,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const msgEl = document.getElementById('loginMsg');
-  
+
   try {
     const res = await fetch(`${API_URL}/login`, {
       method: 'POST',
@@ -70,20 +70,20 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     });
 
     const data = await res.json();
-    
+
     if (res.ok) {
       // Save login session
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
-      
+
       msgEl.className = 'message success';
       msgEl.textContent = `✅ Welcome, ${data.user.fullName}!`;
-      
+
       // TODO: Redirect to dashboard page
-    //   setTimeout(() => alert('🎉 Login successful! Dashboard coming next...'), 1500);
-    setTimeout(() => {
-    window.location.href = 'dashboard11.html';
-    }, 1500);   
+      //   setTimeout(() => alert('🎉 Login successful! Dashboard coming next...'), 1500);
+      setTimeout(() => {
+        window.location.href = 'dashboard11.html';
+      }, 1500);
     } else {
       msgEl.className = 'message error';
       msgEl.textContent = data.message;

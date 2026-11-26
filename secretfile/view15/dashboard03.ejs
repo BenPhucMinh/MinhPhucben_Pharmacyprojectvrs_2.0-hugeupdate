@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Quản lý Dược phẩm — Dashboard</title>
+  <style>
+    .folder-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .folder-card {
+      padding: 30px;
+      background: #e3f2fd;
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .folder-card:hover {
+      background: #bbdefb;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>📋 DANH MỤC CHÍNH — Nhà Thuốc</h1>
+  <h3>Chào mừng, <%= user.role %>!</h3>
+
+  <div class="folder-grid">
+    <!-- Category 1: Thuốc -->
+    <div class="folder-card" onclick="window.location.href='/thuoc'">
+      💊<h3>Danh mục Thuốc</h3>
+      <p>Thuốc BHYT • Kê đơn • Không kê đơn</p>
+    </div>
+
+    <!-- Category 2: Hàng Đặc trị -->
+    <div class="folder-card" onclick="window.location.href='/hangdactri'">
+      🏥<h3>Hàng Đặc trị</h3>
+      <p>Hàng đặt • Theo toa</p>
+    </div>
+
+    <!-- Category 3: VTYT / TBYT -->
+    <div class="folder-card" onclick="window.location.href='/vtyt'">
+      🧪<h3>Vật tư & Thiết bị Y tế</h3>
+      <p>VTYT • TBYT</p>
+    </div>
+
+    <!-- Category 4: TPCN -->
+    <div class="folder-card" onclick="window.location.href='/tpcn'">
+      🍃<h3>Thực phẩm chức năng</h3>
+      <p>TPCN</p>
+    </div>
+
+    <!-- Category 5: Dược Mỹ Phẩm -->
+    <div class="folder-card" onclick="window.location.href='/dmp'">
+      📋<h3>Dược Mỹ Phẩm</h3>
+      <p>DMP</p>
+    </div>
+  </div>
+
+  <p><a href="/logout">🔑 Đăng xuất</a></p>
+</body>
+
+</html>

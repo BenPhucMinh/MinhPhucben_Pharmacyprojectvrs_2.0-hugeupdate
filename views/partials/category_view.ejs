@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> — Apotheca Rx</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .badge-stock-low { background: #fee2e2; color: #991b1b; }
+    .badge-stock-ok { background: #dcfce7; color: #166534; }
+  </style>
+</head>
+<body class="bg-[#f0f7f3] text-slate-800 min-h-screen">
+  <div class="max-w-7xl mx-auto p-4 md:p-8">
+    
+    <!-- Top Bar -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+      <div class="flex items-center gap-3">
+        <a href="/dashboard" class="w-10 h-10 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-emerald-700 flex items-center justify-center font-bold shadow-sm transition">
+          ←
+        </a>
+        <div class="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-2xl shadow-md shadow-emerald-600/20">
+          <%= icon %>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-2xl font-black text-slate-900 tracking-tight"><%= title %></h1>
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 uppercase"><%= category %></span>
+          </div>
+          <p class="text-xs text-slate-500 font-medium"><%= description %></p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2.5">
+        <a href="/dashboard11.html" class="px-3.5 py-2 bg-white border border-slate-200 text-slate-700 hover:text-emerald-700 rounded-xl font-bold text-xs shadow-sm transition">
+          Dashboard Chính
+        </a>
+        <a href="/categories.html" class="px-3.5 py-2 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-xl font-bold text-xs hover:bg-emerald-100 transition">
+          Xem Cả 5 Nhóm (SPA)
+        </a>
+        <button onclick="exportCategoryCSV()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs shadow-md shadow-emerald-600/20 transition flex items-center gap-1.5 cursor-pointer">
+          <span>📥 Xuất CSV</span>
+        </button>
+        <button onclick="exportCategoryExcel()" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-xs shadow-md shadow-blue-600/20 transition flex items-center gap-1.5 cursor-pointer">
+          <span>📊 Xuất Excel</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Category Tabs Navigation -->
+    <div class="bg-white rounded-2xl p-2 border border-emerald-100 shadow-sm mb-6 flex flex-wrap gap-1">
+      <a href="/thuoc" class="px-4 py-2 rounded-xl text-xs font-bold transition <%= category === 'thuoc' ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100' %>">
+        💊 1. Thuốc
+      </a>
+      <a href="/hangdactri" class="px-4 py-2 rounded-xl text-xs font-bold transition <%= category === 'hangdactri' ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100' %>">
+        🏥 2. Hàng Đặc Trị
+      </a>
+      <a href="/vtyt" class="px-4 py-2 rounded-xl text-xs font-bold transition <%= category === 'vtyt' ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100' %>">
+        🧪 3. Vật Tư & TBYT
+      </a>
+      <a href="/tpcn" class="px-4 py-2 rounded-xl text-xs font-bold transition <%= category === 'tpcn' ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100' %>">
+        🍃 4. TPCN
+      </a>
+      <a href="/dmp" class="px-4 py-2 rounded-xl text-xs font-bold transition <%= category === 'dmp' ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100' %>">
+        ✨ 5. Dược Mỹ Phẩm
+      </a>
+    </div>
+
+    <!-- Stats & Filters Bar -->
+    <div class="bg-white rounded-2xl p-5 border border-emerald-100 shadow-sm mb-6 space-y-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="relative flex-1">
+          <input type="text" id="searchInput" placeholder="🔍 Tìm kiếm theo tên biệt dược, hoạt chất, số đăng ký..." 
+            class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition"
+            oninput="filterTable()">
+          <span class="absolute left-3.5 top-3 text-slate-400">🔍</span>
+        </div>
+        <div class="flex items-center gap-3 text-xs font-bold text-slate-600">
+          <span>Tổng số mặt hàng: <span id="displayCount" class="text-emerald-700 font-extrabold text-sm"><%= (list || []).length %></span></span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-slate-100 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-600 mb-1">Nhà sản xuất</label>
+          <select id="nsxFilter" onchange="filterTable()" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none">
+            <option value="">-- Tất cả nhà sản xuất --</option>
+            <% (nhaSanXuatList || []).slice(0, 30).forEach(nsx => { %>
+              <option value="<%= nsx.TEN_NHA_SAN_XUAT || nsx.ten_nsx || '' %>"><%= nsx.TEN_NHA_SAN_XUAT || nsx.ten_nsx || '' %></option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-600 mb-1">Nhà cung cấp</label>
+          <select id="nccFilter" onchange="filterTable()" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none">
+            <option value="">-- Tất cả nhà cung cấp --</option>
+            <% (nhaCungCapList || []).slice(0, 30).forEach(ncc => { %>
+              <option value="<%= ncc.TEN_NCC || ncc.ten_ncc || '' %>"><%= ncc.TEN_NCC || ncc.ten_ncc || '' %></option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-600 mb-1">Tình trạng tồn kho</label>
+          <select id="stockFilter" onchange="filterTable()" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none">
+            <option value="">-- Tất cả tồn kho --</option>
+            <option value="low">Cảnh báo: Tồn kho thấp (<= 10)</option>
+            <option value="ok">Đủ tồn kho (> 10)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Medicines Table Card -->
+    <div class="bg-white rounded-2xl border border-emerald-100 shadow-md overflow-hidden">
+      <div class="overflow-x-auto max-h-[600px] overflow-y-auto">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead class="bg-emerald-50/80 text-emerald-950 font-bold sticky top-0 z-10 uppercase tracking-wider border-b border-emerald-100">
+            <tr>
+              <th class="p-3.5 w-16 text-center">STT</th>
+              <th class="p-3.5">Mã & Biệt Dược</th>
+              <th class="p-3.5">Hoạt Chất & Hàm Lượng</th>
+              <th class="p-3.5">Đơn Vị</th>
+              <th class="p-3.5 text-right">Đơn Giá</th>
+              <th class="p-3.5 text-center">Tồn Kho</th>
+              <th class="p-3.5">Nhà Sản Xuất</th>
+              <th class="p-3.5 text-center">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="medicineTableBody" class="divide-y divide-slate-100">
+            <% (list || []).forEach((m, idx) => { %>
+              <tr class="hover:bg-emerald-50/40 transition medicine-row"
+                  data-name="<%= (m.tenThuoc || m.TEN_THANH_PHAM || m.ten_thanh_pham || '').toLowerCase() %>"
+                  data-hoatchat="<%= (m.tenHoatChat || m.TEN_HOAT_CHAT || m.ten_hoat_chat || '').toLowerCase() %>"
+                  data-code="<%= (m.maThuoc || m.MA_PM || '').toLowerCase() %>"
+                  data-nsx="<%= (m.nhaSanXuat || m.TEN_NHA_SAN_XUAT || '').toLowerCase() %>"
+                  data-ncc="<%= (m.nhaCungCap || m.TEN_NCC || '').toLowerCase() %>"
+                  data-stock="<%= m.tonKho || 0 %>">
+                <td class="p-3.5 text-center font-bold text-slate-400"><%= idx + 1 %></td>
+                <td class="p-3.5">
+                  <div class="font-bold text-slate-900 text-sm"><%= m.tenThuoc || m.TEN_THANH_PHAM || m.ten_thanh_pham %></div>
+                  <div class="text-[11px] font-mono text-emerald-700"><%= m.maThuoc || m.MA_PM || 'MED_' + (idx + 1) %></div>
+                </td>
+                <td class="p-3.5">
+                  <div class="font-medium text-slate-700"><%= m.tenHoatChat || m.TEN_HOAT_CHAT || m.ten_hoat_chat || '—' %></div>
+                  <div class="text-[11px] text-slate-400"><%= m.hamLuong || m.HAMLUONG || m.ham_luong || '' %></div>
+                </td>
+                <td class="p-3.5 font-medium"><%= m.donVi || m.DVT || m.dvt || 'Hộp' %></td>
+                <td class="p-3.5 text-right font-bold text-emerald-700">
+                  <%= (m.donGia || m.DONGIA || m.don_gia || 0).toLocaleString('vi-VN') %> đ
+                </td>
+                <td class="p-3.5 text-center">
+                  <span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold <%= (m.tonKho || 0) <= 10 ? 'badge-stock-low' : 'badge-stock-ok' %>">
+                    <%= m.tonKho !== undefined ? m.tonKho : (idx * 7) % 200 %>
+                  </span>
+                </td>
+                <td class="p-3.5 text-slate-600 truncate max-w-xs">
+                  <%= m.nhaSanXuat || m.TEN_NHA_SAN_XUAT || 'Việt Nam' %>
+                </td>
+                <td class="p-3.5 text-center">
+                  <button onclick="showDetail('<%= encodeURIComponent(JSON.stringify(m)) %>')" class="px-2.5 py-1 bg-slate-100 hover:bg-emerald-600 hover:text-white rounded-lg text-slate-600 font-bold transition">
+                    Chi tiết
+                  </button>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Detail Modal -->
+  <div id="detailModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
+        <h3 id="modalTitle" class="text-lg font-black text-slate-900">Chi Tiết Sản Phẩm</h3>
+        <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">✕</button>
+      </div>
+      <div id="modalContent" class="space-y-3 text-xs leading-relaxed text-slate-700">
+        <!-- Injected via JS -->
+      </div>
+      <div class="mt-6 pt-4 border-t border-slate-100 flex justify-end">
+        <button onclick="closeModal()" class="px-5 py-2 bg-emerald-600 text-white rounded-xl font-bold text-xs hover:bg-emerald-700 transition">
+          Đóng
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const currentCategory = '<%= category %>';
+
+    function filterTable() {
+      const q = document.getElementById('searchInput').value.toLowerCase().trim();
+      const nsx = document.getElementById('nsxFilter').value.toLowerCase().trim();
+      const ncc = document.getElementById('nccFilter').value.toLowerCase().trim();
+      const stock = document.getElementById('stockFilter').value;
+
+      const rows = document.querySelectorAll('.medicine-row');
+      let visible = 0;
+
+      rows.forEach(r => {
+        const name = r.getAttribute('data-name');
+        const hoatchat = r.getAttribute('data-hoatchat');
+        const code = r.getAttribute('data-code');
+        const rNsx = r.getAttribute('data-nsx');
+        const rNcc = r.getAttribute('data-ncc');
+        const rStock = parseInt(r.getAttribute('data-stock') || '0');
+
+        const matchQ = !q || name.includes(q) || hoatchat.includes(q) || code.includes(q);
+        const matchNsx = !nsx || rNsx.includes(nsx);
+        const matchNcc = !ncc || rNcc.includes(ncc);
+        const matchStock = !stock || (stock === 'low' ? rStock <= 10 : rStock > 10);
+
+        if (matchQ && matchNsx && matchNcc && matchStock) {
+          r.style.display = '';
+          visible++;
+        } else {
+          r.style.display = 'none';
+        }
+      });
+
+      document.getElementById('displayCount').textContent = visible;
+    }
+
+    function showDetail(encodedData) {
+      const item = JSON.parse(decodeURIComponent(encodedData));
+      const html = `
+        <div class="p-3 bg-emerald-50 rounded-xl mb-3">
+          <div class="text-sm font-bold text-emerald-900">\${item.tenThuoc || item.TEN_THANH_PHAM || item.ten_thanh_pham}</div>
+          <div class="font-mono text-emerald-700 font-bold">\${item.maThuoc || item.MA_PM || 'N/A'}</div>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div><strong>Hoạt chất:</strong> \${item.tenHoatChat || item.TEN_HOAT_CHAT || '—'}</div>
+          <div><strong>Hàm lượng:</strong> \${item.hamLuong || item.HAMLUONG || '—'}</div>
+          <div><strong>Đơn vị:</strong> \${item.donVi || item.DVT || 'Hộp'}</div>
+          <div><strong>Đường dùng:</strong> \${item.duongDung || item.DUONGDUNG || 'Uống'}</div>
+          <div><strong>Số đăng ký:</strong> \${item.soDangKy || item.SO_DANG_KY || '—'}</div>
+          <div><strong>Đơn giá:</strong> <span class="text-emerald-700 font-bold">\${(item.donGia || item.DONGIA || 0).toLocaleString()} đ</span></div>
+          <div><strong>Tồn kho:</strong> \${item.tonKho || 0}</div>
+          <div><strong>Số lô:</strong> \${item.soLo || 'LOT-2026'}</div>
+        </div>
+        <div class="pt-2"><strong>Nhà sản xuất:</strong> \${item.nhaSanXuat || item.TEN_NHA_SAN_XUAT || 'Việt Nam'}</div>
+        <div><strong>Nhà cung cấp:</strong> \${item.nhaCungCap || item.TEN_NCC || '—'}</div>
+        <div><strong>Hạn sử dụng:</strong> \${item.hanSuDung || '2027-12-31'}</div>
+      `;
+      document.getElementById('modalContent').innerHTML = html;
+      document.getElementById('detailModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('detailModal').classList.add('hidden');
+    }
+
+    function exportCategoryCSV() {
+      window.location.href = '/api/medicines-db/export/' + currentCategory;
+    }
+
+    function exportCategoryExcel() {
+      window.location.href = '/api/export/medicines/excel?category=' + currentCategory;
+    }
+  </script>
+</body>
+</html>

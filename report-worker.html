@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="vi" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apotheca Rx — Báo Cáo & Tác Vụ Nhân Viên</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              200: '#a7f3d0',
+              300: '#6ee7b7',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+              950: '#022c22'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#f2f8f4] dark:bg-[#070d0b] text-slate-800 dark:text-slate-100 min-h-screen flex antialiased">
+
+  <!-- ==================== SIDEBAR ==================== -->
+  <aside class="w-64 bg-white/95 dark:bg-[#0c1613] border-r border-emerald-100 dark:border-emerald-950/60 flex flex-col justify-between shrink-0 fixed inset-y-0 left-0 z-40 transition-all duration-200 backdrop-blur-md">
+    <div class="flex flex-col h-full overflow-y-auto">
+      
+      <!-- App Header -->
+      <div class="p-5 flex items-center justify-between border-b border-emerald-100/70 dark:border-emerald-950/50">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white shadow-md shadow-emerald-500/20 font-bold text-xl">
+            <span>+</span>
+          </div>
+          <div>
+            <h1 class="font-bold text-base tracking-tight text-slate-900 dark:text-white">Apotheca Rx</h1>
+            <p class="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium tracking-wide">Clinical Dispense v2.4</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav class="p-3.5 space-y-1.5 flex-1">
+        <a href="dashboard11.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-emerald-700 hover:bg-emerald-50/70 transition">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="categories.html" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-emerald-700 hover:bg-emerald-50/70 transition">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+            <span>5 Danh Mục Thuốc (P2)</span>
+          </div>
+          <span class="px-1.5 py-0.5 text-[10px] font-bold bg-slate-200 text-slate-700 rounded-md">P2</span>
+        </a>
+
+        <a href="bulk-data.html" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-emerald-700 hover:bg-emerald-50/70 transition">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/></svg>
+            <span>Import / Export (P3)</span>
+          </div>
+          <span class="px-1.5 py-0.5 text-[10px] font-bold bg-amber-500 text-white rounded-md">P3</span>
+        </a>
+
+        <a href="report-pharmacist.html" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-emerald-700 hover:bg-emerald-50/70 transition">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            <span>Báo Cáo Dược Sĩ (P4)</span>
+          </div>
+        </a>
+
+        <!-- Active Tab: Worker Report -->
+        <a href="report-worker.html" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold text-emerald-900 dark:text-emerald-100 bg-emerald-100/80 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/40 shadow-sm transition">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+            <span>Báo Cáo Nhân Viên (P5)</span>
+          </div>
+          <span class="px-1.5 py-0.5 text-[10px] font-black bg-emerald-600 text-white rounded-md">Active</span>
+        </a>
+
+        <a href="report-budget-salary.html" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-emerald-700 hover:bg-emerald-50/70 transition">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>Ngân Sách & Lương (P6)</span>
+          </div>
+        </a>
+      </nav>
+
+      <!-- Profile -->
+      <div class="p-3.5 border-t border-emerald-100/70 dark:border-emerald-950/60 bg-emerald-50/40 dark:bg-emerald-950/20">
+        <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-[#101e19] border border-emerald-100 dark:border-emerald-900/40 shadow-sm">
+          <div class="flex items-center gap-2">
+            <div id="sideAvatar" class="w-8 h-8 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-xs shrink-0">LA</div>
+            <div class="truncate">
+              <span id="userName" class="font-bold text-xs text-slate-800 dark:text-white truncate block">Y Tá Lan Anh</span>
+              <span id="userRole" class="text-[9px] font-bold px-1 py-0.2 rounded bg-emerald-100 text-emerald-800 uppercase">NURSE / WORKER</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==================== MAIN WORKSPACE ==================== -->
+  <div class="flex-1 ml-64 flex flex-col min-w-0 min-h-screen">
+    
+    <!-- Top Action Bar -->
+    <header class="h-16 px-6 bg-white/80 dark:bg-[#0c1613]/80 border-b border-emerald-100 dark:border-emerald-950/60 flex items-center justify-between sticky top-0 z-30 backdrop-blur-md">
+      <div class="flex items-center gap-3">
+        <h2 class="text-base font-bold text-slate-800 dark:text-white">Phase 5 — Tác Vụ & Báo Cáo Nhân Viên (Worker Operations & Audits)</h2>
+        <span class="text-slate-300 dark:text-slate-700">/</span>
+        <div class="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span>Shift Active</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2.5">
+        <button onclick="openAddTaskModal()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs shadow-md shadow-emerald-600/20 transition flex items-center gap-1.5">
+          <span>➕ Thêm Nhiệm Vụ Ca Trực</span>
+        </button>
+        <button onclick="loadWorkerData()" class="px-3.5 py-2 bg-white border border-slate-200 text-slate-700 hover:text-emerald-700 rounded-xl font-bold text-xs shadow-sm transition flex items-center gap-1.5">
+          <span>🔄 Tải Lại</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="p-6 flex-1 flex flex-col gap-6">
+
+      <!-- Section 1: Worker Task Board -->
+      <div class="bg-white dark:bg-[#0c1613] rounded-3xl p-6 border border-emerald-100 dark:border-emerald-950/60 shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-emerald-950/50">
+          <div>
+            <h3 class="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
+              <span>📋</span> Bảng Phân Công Nhiệm Vụ Nhân Viên (Daily Task List)
+            </h3>
+            <p class="text-xs text-slate-500">Danh sách kiểm tra nhiệt độ kho, chuẩn bị đơn thuốc, vệ sinh quầy & kiểm đếm định kỳ</p>
+          </div>
+          <div class="flex items-center gap-2 text-xs font-bold text-slate-600">
+            <span class="px-3 py-1 bg-emerald-50 text-emerald-800 rounded-full" id="tasksDoneCount">0 / 0 hoàn thành</span>
+          </div>
+        </div>
+
+        <div id="tasksContainer" class="space-y-2.5">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <!-- Section 2: Stock Check Status (Kiểm Kê Kho Dược) -->
+      <div class="bg-white dark:bg-[#0c1613] rounded-3xl p-6 border border-blue-100 dark:border-blue-950/40 shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-emerald-950/50">
+          <div>
+            <h3 class="text-base font-black text-blue-900 dark:text-blue-200 flex items-center gap-2">
+              <span>🔍</span> Kết Quả Kiểm Kê Thực Tế vs Hệ Thống (Stock Check Status)
+            </h3>
+            <p class="text-xs text-slate-500">Đối chiếu số liệu sổ sách phần mềm với số lượng kiểm đếm thực tế tại từng ô kệ</p>
+          </div>
+          <span class="px-2.5 py-1 bg-blue-100 text-blue-800 rounded-lg text-xs font-bold">Kiểm Kê Định Kỳ GPP</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead class="bg-blue-50/70 dark:bg-blue-950/30 text-blue-950 dark:text-blue-300 font-bold uppercase tracking-wider text-[11px]">
+              <tr>
+                <th class="p-3">Mã Thuốc & Biệt Dược</th>
+                <th class="p-3">Vị Trí Kệ</th>
+                <th class="p-3 text-center">Tồn Hệ Thống</th>
+                <th class="p-3 text-center">Thực Tế Đếm</th>
+                <th class="p-3 text-center">Chênh Lệch (+/-)</th>
+                <th class="p-3">Ghi Chú & Nguyên Nhân</th>
+                <th class="p-3">Người Kiểm Kê</th>
+                <th class="p-3 text-center">Trạng Thái</th>
+                <th class="p-3 text-center">Xử Lý</th>
+              </tr>
+            </thead>
+            <tbody id="stockAuditTbody" class="divide-y divide-slate-100 dark:divide-emerald-950/30">
+              <!-- Injected via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Section 3: Immutable Usage & Audit Logs (Nhật Ký Sử Dụng & Thao Tác) -->
+      <div class="bg-white dark:bg-[#0c1613] rounded-3xl p-6 border border-slate-200 dark:border-emerald-950/60 shadow-sm space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-emerald-950/50">
+          <div>
+            <h3 class="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
+              <span>🛡️</span> Nhật Ký Hoạt Động & Xuất Nhập Dược Phẩm (Usage & Audit Logs)
+            </h3>
+            <p class="text-xs text-slate-500">Ghi lại toàn bộ hành động xuất thuốc, chỉnh kho, thu hồi hoặc duyệt đơn của nhân viên</p>
+          </div>
+          <span class="px-2.5 py-1 bg-slate-100 dark:bg-emerald-950/40 text-slate-700 dark:text-slate-300 rounded-lg text-xs font-bold">Audit Trail</span>
+        </div>
+
+        <div class="overflow-x-auto max-h-72 overflow-y-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead class="bg-slate-50 dark:bg-emerald-950/60 text-slate-600 dark:text-slate-400 uppercase tracking-wider text-[11px] sticky top-0">
+              <tr>
+                <th class="p-3">Thời Điểm</th>
+                <th class="p-3">Người Thực Hiện</th>
+                <th class="p-3">Vai Trò</th>
+                <th class="p-3">Hành Động</th>
+                <th class="p-3">Đối Tượng / Chi Tiết</th>
+                <th class="p-3">Chứng Từ / Lý Do</th>
+              </tr>
+            </thead>
+            <tbody id="usageLogsTbody" class="divide-y divide-slate-100 dark:divide-emerald-950/30 font-mono text-[11px]">
+              <!-- Injected via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Add Task Modal -->
+  <div id="taskModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-[#0c1613] rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+        <h3 class="text-base font-black text-slate-900 dark:text-white">Thêm Nhiệm Vụ Mới</h3>
+        <button onclick="closeTaskModal()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">✕</button>
+      </div>
+      <form id="addTaskForm" class="space-y-3 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Nội dung nhiệm vụ</label>
+          <input type="text" id="taskTitle" required placeholder="VD: Kiểm tra vắc xin tủ đông A1..." class="w-full p-2.5 bg-slate-50 dark:bg-[#121f1a] border border-slate-200 rounded-xl focus:outline-none">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Mức độ ưu tiên</label>
+          <select id="taskPriority" class="w-full p-2.5 bg-slate-50 dark:bg-[#121f1a] border border-slate-200 rounded-xl focus:outline-none">
+            <option value="Thường">Thường</option>
+            <option value="Trung bình">Trung bình</option>
+            <option value="Cao">Cao</option>
+            <option value="Khẩn cấp">Khẩn cấp</option>
+          </select>
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Người phụ trách</label>
+          <input type="text" id="taskAssignedTo" value="Y Tá Lan Anh" class="w-full p-2.5 bg-slate-50 dark:bg-[#121f1a] border border-slate-200 rounded-xl focus:outline-none">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Thời hạn hoàn thành</label>
+          <input type="text" id="taskDeadline" value="Trước 17:00 Hôm nay" class="w-full p-2.5 bg-slate-50 dark:bg-[#121f1a] border border-slate-200 rounded-xl focus:outline-none">
+        </div>
+        <div class="pt-3 border-t border-slate-100 flex justify-end gap-2">
+          <button type="button" onclick="closeTaskModal()" class="px-4 py-2 bg-slate-100 rounded-xl font-bold text-slate-600">Hủy</button>
+          <button type="submit" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold">Lưu Nhiệm Vụ</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Reconcile Modal -->
+  <div id="reconcileModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-[#0c1613] rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+        <h3 class="text-base font-black text-slate-900 dark:text-white">Cân Đối Số Liệu Kiểm Kê</h3>
+        <button onclick="closeReconcileModal()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">✕</button>
+      </div>
+      <form id="reconcileForm" class="space-y-3 text-xs">
+        <input type="hidden" id="recMaThuoc">
+        <div>
+          <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Tên thuốc</label>
+          <div id="recTenThuoc" class="font-bold text-emerald-800 text-sm"></div>
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Số lượng thực tế đếm được</label>
+          <input type="number" id="recThucTe" required min="0" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none font-bold text-sm">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Ghi chú & Lý do chênh lệch</label>
+          <textarea id="recGhiChu" rows="2" placeholder="VD: Hư hỏng vỏ hộp, mẫu kiểm nghiệm..." class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none"></textarea>
+        </div>
+        <div class="pt-3 border-t border-slate-100 flex justify-end gap-2">
+          <button type="button" onclick="closeReconcileModal()" class="px-4 py-2 bg-slate-100 rounded-xl font-bold text-slate-600">Đóng</button>
+          <button type="submit" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold">Cập Nhật Tồn Kho</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Session
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      document.getElementById('userName').textContent = user.fullName;
+      document.getElementById('userRole').textContent = user.role.toUpperCase();
+    }
+
+    async function loadWorkerData() {
+      try {
+        const [tasksRes, auditsRes, logsRes] = await Promise.all([
+          fetch('/api/reports/worker/tasks'),
+          fetch('/api/reports/worker/stock-audits'),
+          fetch('/api/reports/worker/usage-logs')
+        ]);
+
+        const tasks = await tasksRes.json();
+        const audits = await auditsRes.json();
+        const logs = await logsRes.json();
+
+        // Tasks
+        const doneCount = tasks.filter(t => t.status === 'completed').length;
+        document.getElementById('tasksDoneCount').textContent = `\${doneCount} / \${tasks.length} hoàn thành`;
+
+        const pBadges = {
+          'Khẩn cấp': 'bg-red-100 text-red-800',
+          'Cao': 'bg-amber-100 text-amber-800',
+          'Trung bình': 'bg-blue-100 text-blue-800',
+          'Thường': 'bg-slate-100 text-slate-700'
+        };
+
+        const tasksContainer = document.getElementById('tasksContainer');
+        tasksContainer.innerHTML = tasks.map(t => `
+          <div class="p-3.5 rounded-2xl border \${t.status === 'completed' ? 'bg-slate-50 border-slate-200 opacity-60' : 'bg-white border-emerald-100 shadow-sm'} flex items-center justify-between gap-4 transition">
+            <div class="flex items-center gap-3">
+              <button onclick="toggleTaskStatus(\${t.id})" class="w-6 h-6 rounded-lg border \${t.status === 'completed' ? 'bg-emerald-600 border-emerald-600 text-white' : 'border-slate-300 hover:border-emerald-600'} flex items-center justify-center font-bold text-xs transition">
+                \${t.status === 'completed' ? '✓' : ''}
+              </button>
+              <div>
+                <div class="text-xs font-bold text-slate-900 \${t.status === 'completed' ? 'line-through text-slate-400' : ''}">\${t.title}</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">👤 Phụ trách: <strong>\${t.assignedTo}</strong> • ⏰ Hạn: \${t.deadline}</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded-md text-[10px] font-bold \${pBadges[t.priority] || 'bg-slate-100'}">\${t.priority}</span>
+              <span class="px-2 py-0.5 rounded-md text-[10px] font-bold \${t.status === 'completed' ? 'bg-emerald-100 text-emerald-800' : t.status === 'in_progress' ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-600'}">
+                \${t.status === 'completed' ? 'Hoàn thành' : t.status === 'in_progress' ? 'Đang làm' : 'Chờ làm'}
+              </span>
+            </div>
+          </div>
+        `).join('');
+
+        // Audits
+        const auditTbody = document.getElementById('stockAuditTbody');
+        auditTbody.innerHTML = audits.map(a => `
+          <tr class="hover:bg-blue-50/20">
+            <td class="p-3">
+              <div class="font-bold text-slate-900 dark:text-white">\${a.tenThuoc}</div>
+              <div class="text-[10px] font-mono text-slate-400">\${a.maThuoc}</div>
+            </td>
+            <td class="p-3 font-semibold text-slate-600">\${a.viTri}</td>
+            <td class="p-3 text-center font-bold">\${a.tonHeThong}</td>
+            <td class="p-3 text-center font-bold text-blue-700">\${a.thucTe}</td>
+            <td class="p-3 text-center font-bold \${a.chenhLech === 0 ? 'text-emerald-600' : 'text-rose-600'}">
+              \${a.chenhLech > 0 ? '+' + a.chenhLech : a.chenhLech}
+            </td>
+            <td class="p-3 text-slate-500 italic">\${a.ghiChu}</td>
+            <td class="p-3 text-slate-700 font-medium">\${a.auditor}</td>
+            <td class="p-3 text-center">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold \${a.chenhLech === 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+                \${a.status}
+              </span>
+            </td>
+            <td class="p-3 text-center">
+              <button onclick="openReconcileModal('\${a.maThuoc}', '\${a.tenThuoc}', \${a.thucTe})" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-[10px] font-bold transition">
+                Cân đối
+              </button>
+            </td>
+          </tr>
+        `).join('');
+
+        // Logs
+        const logsTbody = document.getElementById('usageLogsTbody');
+        logsTbody.innerHTML = logs.map(l => `
+          <tr class="hover:bg-slate-50 dark:hover:bg-emerald-950/20">
+            <td class="p-3 text-slate-400">\${l.timestamp}</td>
+            <td class="p-3 font-bold text-slate-900 dark:text-white font-sans">\${l.user}</td>
+            <td class="p-3"><span class="px-1.5 py-0.2 rounded bg-slate-100 text-[10px] uppercase">\${l.role}</span></td>
+            <td class="p-3 font-bold text-emerald-700 font-sans">\${l.action}</td>
+            <td class="p-3 font-sans text-slate-700 dark:text-slate-300">\${l.target}</td>
+            <td class="p-3 text-slate-400">\${l.ref}</td>
+          </tr>
+        `).join('');
+
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function toggleTaskStatus(id) {
+      try {
+        await fetch(`/api/reports/worker/tasks/\${id}/toggle`, { method: 'PATCH' });
+        loadWorkerData();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function openAddTaskModal() {
+      document.getElementById('taskModal').classList.remove('hidden');
+    }
+
+    function closeTaskModal() {
+      document.getElementById('taskModal').classList.add('hidden');
+    }
+
+    document.getElementById('addTaskForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = document.getElementById('taskTitle').value;
+      const priority = document.getElementById('taskPriority').value;
+      const assignedTo = document.getElementById('taskAssignedTo').value;
+      const deadline = document.getElementById('taskDeadline').value;
+
+      try {
+        await fetch('/api/reports/worker/tasks', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title, priority, assignedTo, deadline })
+        });
+        closeTaskModal();
+        Swal.fire('Thành công', 'Đã thêm nhiệm vụ mới vào bảng điều hành!', 'success');
+        loadWorkerData();
+      } catch (err) {
+        Swal.fire('Lỗi', err.message, 'error');
+      }
+    });
+
+    function openReconcileModal(maThuoc, tenThuoc, thucTe) {
+      document.getElementById('recMaThuoc').value = maThuoc;
+      document.getElementById('recTenThuoc').textContent = `\${tenThuoc} (\${maThuoc})`;
+      document.getElementById('recThucTe').value = thucTe;
+      document.getElementById('reconcileModal').classList.remove('hidden');
+    }
+
+    function closeReconcileModal() {
+      document.getElementById('reconcileModal').classList.add('hidden');
+    }
+
+    document.getElementById('reconcileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const maThuoc = document.getElementById('recMaThuoc').value;
+      const thucTe = document.getElementById('recThucTe').value;
+      const ghiChu = document.getElementById('recGhiChu').value;
+
+      try {
+        const res = await fetch('/api/reports/worker/stock-audits/reconcile', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ maThuoc, thucTe, ghiChu, auditor: user ? user.fullName : 'Y Tá Trực' })
+        });
+        const data = await res.json();
+        closeReconcileModal();
+        Swal.fire('Cập nhật tồn kho!', data.message, 'success');
+        loadWorkerData();
+      } catch (err) {
+        Swal.fire('Lỗi', err.message, 'error');
+      }
+    });
+
+    loadWorkerData();
+  </script>
+</body>
+</html>
