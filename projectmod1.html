@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pharmacy System — Login</title>
+  <!-- Tailwind & Global CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+    .form { display: none; }
+    .form.active { display: block; }
+    .tab button.active { background-color: #16a34a; color: white; font-weight: bold; }
+    .message { margin-top: 1rem; text-align: center; padding: 0.75rem; border-radius: 0.5rem; display: none; font-size: 0.95rem; }
+    .success { background-color: #dcfce7; color: #166534; border: 1px solid #bbf7d0; display: block !important; }
+    .error { background-color: #fee2e2; color: #991b1b; border: 1px solid #fecaca; display: block !important; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-green-300 via-green-400 to-green-500 min-h-screen flex items-center justify-center p-4">
+  <div class="container bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md border border-green-100">
+    <h1 class="text-2xl font-bold text-center text-gray-800 mb-6 flex items-center justify-center gap-2">
+      <span class="text-4xl">🏥</span> Pharmacy System
+    </h1>
+    
+    <!-- Login/Register tabs -->
+    <div class="tab flex mb-6 rounded-lg overflow-hidden border border-gray-200">
+      <button id="tabLogin" class="active bg-green-600 text-white font-bold py-3 px-6 w-1/2 rounded-tl-lg transition hover:opacity-90" onclick="showTab('login')">Login</button>
+      <button id="tabRegister" class="bg-gray-200 text-gray-600 py-3 px-6 w-1/2 rounded-tr-lg transition hover:bg-gray-300" onclick="showTab('register')">Register</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <form id="loginForm" class="form active space-y-4">
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">Email Address</label>
+        <input type="email" id="loginEmail" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition" placeholder="name@example.com" required>
+      </div>
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
+        <input type="password" id="loginPassword" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition shadow-md hover:shadow-lg mt-2 cursor-pointer">Sign In</button>
+      <div id="loginMsg" class="message"></div>
+    </form>
+
+    <!-- REGISTER FORM -->
+    <form id="registerForm" class="form space-y-4">
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">Full Name</label>
+        <input type="text" id="regName" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition" placeholder="Nguyễn Văn A" required>
+      </div>
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">Email Address</label>
+        <input type="email" id="regEmail" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition" placeholder="name@example.com" required>
+      </div>
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
+        <input type="password" id="regPassword" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition" placeholder="••••••••" required>
+      </div>
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">Phone Number</label>
+        <input type="tel" id="regPhone" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition" placeholder="0912345678">
+      </div>
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">Role</label>
+        <select id="regRole" class="w-full p-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-green-500 transition text-gray-700">
+          <option value="nurse">Nurse</option>
+          <option value="pharmacist">Pharmacist</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition shadow-md hover:shadow-lg mt-2 cursor-pointer">Create Account</button>
+      <div id="regMsg" class="message"></div>
+    </form>
+  </div>
+
+  <script src="projectki1.js"></script>
+</body>
+</html>
